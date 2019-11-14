@@ -38,3 +38,7 @@ Route::get('/daftar_beasiswa', 'mahasiswa@daftar_beasiswa');
 //route login
 Route::get('/login', 'login_Controller@login');
 Route::get('/logout', 'login_Controller@logout');
+
+
+//route Wali dosen
+Route::get('/dashboard_wali', 'WaliController@index');
