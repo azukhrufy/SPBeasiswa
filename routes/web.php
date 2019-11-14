@@ -32,6 +32,7 @@ Route::get('/simpan_data_keluarga','mahasiswa@simpan_data_keluarga');
 
 //route list beasiswa
 Route::get('/list_beasiswa', 'mahasiswa@list_beasiswa');
+Route::get('/daftar_beasiswa', 'mahasiswa@daftar_beasiswa');
 
 
 //route login

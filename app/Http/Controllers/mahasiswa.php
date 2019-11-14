@@ -34,6 +34,54 @@ class mahasiswa extends Controller
         }
     }
 
+    public function daftar_beasiswa(Request $request){
+        if(!Session::get('login')){
+            return view('login_mhs');
+        }else{
+            $nim = Session::get('username');
+            $id_beasiswa = $request->id_beasiswa;
+            $profil = DB::table('form_beasiswa')->where('nim','=',$nim)->first();
+
+            // cek apakah mahasiswa tsb sudah mengisi form data diri
+            if($profil){
+                 $orangtua_mhs = DB::table('orangtua_mhs')->where('nim','=',$nim)->get();
+
+                 //cek apakah mahasiswa tsb sudah mengisi form orangtua
+                 if($orangtua_mhs){
+
+                    $mendaftar = DB::table('pendaftar_beasiswa')->where([['nim','=',$nim],['id_beasiswa','=',$id_beasiswa]])->first();
+
+                    //Cek apakah mahasiswa tersebut sudah pernah mendaftar beasiswa yang sama
+                    if(!$mendaftar){
+                          //ambil jumlah pendaftar terakhir
+                        $pendaftar = DB::table('beasiswa')->select('Pendaftar')->where('id_beasiswa','=',$id_beasiswa)->value('Pendaftar');
+                        $Pendaftar = $pendaftar + 1;
+
+                        //Update jumlah pendaftar terakhir
+                        $pendaftar = DB::table('beasiswa')->where('id_beasiswa','=',$id_beasiswa)->update(['Pendaftar' => $Pendaftar]);
+
+                        //tambahkan data pendaftar ke tabel pendaftar beasiswa
+                        DB::table('pendaftar_beasiswa')->insert([
+                            'nim' => $nim,
+                            'id_beasiswa' => $id_beasiswa
+                            ]);
+                        
+                        // return view('homepage');
+                    }else{
+                       echo "Telah mendaftar";
+                    }
+
+
+                 }else{
+                    return view('pilih_form');
+                 }
+            }
+            
+
+            
+        }
+    }
+
     public function pilih_form(){
         return view('pilih_form');
     }
