@@ -42,3 +42,6 @@ Route::get('/logout', 'login_Controller@logout');
 
 //route Wali dosen
 Route::get('/dashboard_wali', 'WaliController@index');
+Route::get('/ranking_by_beasiswa', 'WaliController@ranking_by_beasiswa');
+Route::get('/ranking_per_beasiswa', 'WaliController@ranking_per_beasiswa');
+

@@ -15,7 +15,7 @@
 				<div class="card-body">
 					<h5 class="card-title"> Ranking Pendaftar </h5>
 					<br>
-					<a href="/form_data_diri" class="btn btn-primary">Lihat Ranking</a>
+					<a href="/ranking_by_beasiswa" class="btn btn-primary">Lihat Ranking</a>
 				</div>
 			</div>
 		</div>
