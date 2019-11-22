@@ -48,9 +48,13 @@ class login_controller extends Controller
 					echo "password salah";
 				}
 			}else{
-				return view('login_mhs');
+				return view('auth');
 			}
 	 	}
+	}
+
+	public function auth(){
+		return view('form_login');
 	}
 
 	public function logout(Request $request) {

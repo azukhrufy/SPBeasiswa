@@ -3,13 +3,13 @@
 <head>
 	<title>Beasiswa Politeknik Negeri Bandung</title>
 	<link rel="stylesheet" type="text/css" href="{{ asset('/bootstrap/css/bootstrap.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ asset('css/style-home.css') }}">
 </head>
 <body>
 <table>
 	<tr>
-		<img src="{{ asset('img/banner_top333.png') }}">
 		<nav class="navbar navbar-expand-lg navbar-dark bg-primary-polban" style="text-align: center;">
-		  <a class="navbar-brand" href="/home">Beasiswa Politeknik Negeri Bandung</a>
+		  <a class="navbar-brand" href="/home"><strong>Beasiswa</strong> Polban</a>
 		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 		    <span class="navbar-toggler-icon"></span>
 		  </button>
@@ -32,10 +32,12 @@
 		</nav>
 	</tr>
 	<tr>
+	<!-- <div id="background">
+	</div> -->
 		@yield('konten')
 	</tr>
 	<tr>
-		<div style="text-align: center;">
+		<div style="text-align: center; color: #fff; margin: auto;" id="background">
 			<h1>Footer</h1>
 		</div>
 	</tr>

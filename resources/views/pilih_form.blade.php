@@ -9,7 +9,7 @@
 		<div class="col-lg-4">
 			<div class="card">
 				<br>
-				<img src="{{asset('img/books.png')}}" alt="Card image cap" width="200px" height="200px" style="margin:auto;">
+				<img src="{{asset('img/datadiri.svg')}}" alt="Card image cap" width="200px" height="200px" style="margin:auto;">
 				<div class="card-body">
 					<h5 class="card-title"> Form Data Diri</h5>
 					<br>
@@ -20,7 +20,7 @@
 			<div class="col-lg-4">
 				<div class="card">
 					<br>
-					<img src="{{asset('img/student.png')}}" alt="Card image cap" width="200px" height="200px" style="margin:auto;">
+					<img src="{{asset('img/keluarga.svg')}}" alt="Card image cap" width="200px" height="200px" style="margin:auto;">
 					<div class="card-body">
 						<h5 class="card-title">Form Keluarga</h5>
 						<br>
@@ -32,7 +32,7 @@
 			<div class="col-lg-4">
 				<div class="card">
 					<br>
-					<img src="{{asset('img/student.png')}}" alt="Card image cap" width="200px" height="200px" style="margin:auto;">
+					<img src="{{asset('img/attach.svg')}}" alt="Card image cap" width="200px" height="200px" style="margin:auto;">
 					<div class="card-body">
 						<h5 class="card-title">Form Prestasi dan Pengalaman</h5>
 						<a href="/profile" class="btn btn-primary">Isi Form</a>

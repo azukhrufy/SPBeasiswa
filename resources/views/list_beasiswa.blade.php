@@ -19,6 +19,7 @@
 					<div class="col-md-5">
 						<a href="/profile" class="btn btn-primary">Detail Beasiswa</a>
 					</div>
+					@if(Session::get('status') == 'mahasiswa')
 					<div class="col-md-5">
 						<form action="/daftar_beasiswa" method="GET">
 							<input type="hidden" name="id_beasiswa" value="{{ $b->id_beasiswa }}">
@@ -27,7 +28,7 @@
             				</button>
 						</form>
 					</div>
-					
+					@endif
 				</div>
 			</div>
 		</div>

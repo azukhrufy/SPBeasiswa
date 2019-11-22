@@ -10,7 +10,7 @@ class mahasiswa extends Controller
 {
     public function index(){
         if(!Session::get('login')){
-            return view('login_mhs');
+            return view('form_login');
         }else{
         $nim = Session::get('username');
         $profil = DB::table('form_beasiswa')->where('nim','=',$nim)->first();
@@ -36,7 +36,7 @@ class mahasiswa extends Controller
 
     public function daftar_beasiswa(Request $request){
         if(!Session::get('login')){
-            return view('login_mhs');
+            return view('form_login');
         }else{
             $nim = Session::get('username');
             $id_beasiswa = $request->id_beasiswa;
@@ -44,13 +44,11 @@ class mahasiswa extends Controller
 
             // cek apakah mahasiswa tsb sudah mengisi form data diri
             if($profil){
-                 $orangtua_mhs = DB::table('orangtua_mhs')->where('nim','=',$nim)->get();
+                 $orangtua_mhs = DB::table('orangtua_mhs')->where('nim','=',$nim)->first();
 
                  //cek apakah mahasiswa tsb sudah mengisi form orangtua
-                 if($orangtua_mhs){
-
+                if($orangtua_mhs){
                     $mendaftar = DB::table('pendaftar_beasiswa')->where([['nim','=',$nim],['id_beasiswa','=',$id_beasiswa]])->first();
-
                     //Cek apakah mahasiswa tersebut sudah pernah mendaftar beasiswa yang sama
                     if(!$mendaftar){
                           //ambil jumlah pendaftar terakhir
@@ -65,19 +63,72 @@ class mahasiswa extends Controller
                             'nim' => $nim,
                             'id_beasiswa' => $id_beasiswa
                             ]);
+
+                        $nama_beasiswa = DB::table('beasiswa')->select('nama_beasiswa')->where('id_beasiswa','=',$id_beasiswa)->value('nama_beasiswa');
+                        $nama_mahasiswa = DB::table('form_beasiswa')->select('nama')->where('nim','=',$nim)->value('nama');
+                        $ipk = DB::table('form_beasiswa')->select('ipk')->where('nim','=',$nim)->value('ipk');
+                         
+                        $penghasilan_ayah = DB::table('orangtua_mhs')->select('penghasilan_ayah')->where('nim','=',$nim)->value('penghasilan_ayah');
+
+                        $penghasilan_ibu = DB::table('orangtua_mhs')->select('penghasilan_ibu')->where('nim','=',$nim)->value('penghasilan_ibu');
+
+                         $total_penghasilan = $penghasilan_ayah + $penghasilan_ibu;
+
+                        if($total_penghasilan > 5000000){
+                            $skor_penghasilan = 0;
+                        }
+                        if($total_penghasilan > 3500001 and $total_penghasilan <= 5000000){
+                            $skor_penghasilan = 1;
+                        }
+                        if($total_penghasilan > 2500001 and $total_penghasilan <= 3500000){
+                            $skor_penghasilan = 2;
+                        }
+                        if($total_penghasilan > 1500001 and $total_penghasilan <= 2500000){
+                            $skor_penghasilan = 3;
+                        }
+                        if($total_penghasilan <= 150000){
+                            $skor_penghasilan = 4;
+                        }
+
+                        if($ipk > 3.75 and $ipk < 4){
+                            $skor_ipk = 4;
+                        }
+                        if($ipk > 3.51 and $ipk < 3.75){
+                            $skor_ipk = 3;
+                        }
+                        if($ipk > 3.26 and $ipk < 3.50){
+                            $skor_ipk = 2;
+                        }
+                        if($ipk > 3.00 and $ipk < 3.26){
+                            $skor_ipk = 1;
+                        }
+
+                        $skor_akhir = ($skor_ipk * 50/100) + ($skor_penghasilan * 10/100);
+
+                        DB::table('ranking_beasiswa')->insert([
+                        'id_beasiswa' => $id_beasiswa,
+                        'nama_beasiswa'=> $nama_beasiswa,
+                        'nim' => $nim,
+                        'nama_mahasiswa' => $nama_mahasiswa,
+                        'ipk' => $ipk,
+                        'skor_ipk' => $skor_ipk,
+                        'skor_prestasi' => 0,
+                        'skor_perilaku' => 0,
+                        'skor_organisasi' => 0,
+                        'skor_kemampuan_ekonomi' => $skor_penghasilan,
+                        'skor_akhir' => $skor_akhir,
+                        ]);
                         
-                        // return view('homepage');
+                        return view('homepage');
                     }else{
                        echo "Telah mendaftar";
                     }
-
-
-                 }else{
-                    return view('pilih_form');
-                 }
+                }else{
+                    return view('form_data_keluarga');
+                }
+            }else{
+                return view('form_data_diri');
             }
-            
-
             
         }
     }
@@ -145,7 +196,7 @@ class mahasiswa extends Controller
             $status_form_keluarga = 1;
             $mahasiswa = DB::table('mahasiswa')->where('nim','=',$nim)->update(['status_form_keluarga' => $status_form_keluarga]);
 
-            redirect('profil_mhs');
+            return view('profil_mhs');
     }
 
     public function home(){
@@ -159,7 +210,7 @@ class mahasiswa extends Controller
     }
 
     public function login(){
-    	return view('login_mhs');
+    	return view('form_login');
     }
 
     public function select_mahasiswa_by_nim(Request $request){

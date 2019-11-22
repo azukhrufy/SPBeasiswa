@@ -37,6 +37,7 @@ Route::get('/daftar_beasiswa', 'mahasiswa@daftar_beasiswa');
 
 //route login
 Route::get('/login', 'login_Controller@login');
+Route::get('/auth', 'login_Controller@auth');
 Route::get('/logout', 'login_Controller@logout');
 
 
